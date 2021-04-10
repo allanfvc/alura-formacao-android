@@ -16,15 +16,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.github.allanfvc.agenda.R;
 import com.github.allanfvc.agenda.dao.StudentDAO;
 import com.github.allanfvc.agenda.model.Student;
+import com.github.allanfvc.agenda.ui.ListStudentsView;
 import com.github.allanfvc.agenda.ui.adapter.ListStudentAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import static com.github.allanfvc.agenda.ui.activity.Constants.STUDENT_KEY;
 
 public class ListStudentsActivity extends AppCompatActivity {
-
-  private final StudentDAO dao = new StudentDAO();
-  private ListStudentAdapter adapter;
+  
+  private final ListStudentsView view = new ListStudentsView(this);
+  
 
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,7 +39,7 @@ public class ListStudentsActivity extends AppCompatActivity {
   @Override
   protected void onResume() {
     super.onResume();
-    adapter.update(dao.listAll());
+    view.update();
   }
 
   @Override
@@ -51,37 +52,21 @@ public class ListStudentsActivity extends AppCompatActivity {
   public boolean onContextItemSelected(@NonNull MenuItem item) {
     int itemId = item.getItemId();
     if (itemId == R.id.activity_list_students_remove) {
-      confirmDelete(item);
+      view.confirmDelete(item);
     }
 
     return super.onContextItemSelected(item);
   }
 
-  private void confirmDelete(@NonNull final MenuItem item) {
-    
-    new AlertDialog.Builder(this)
-      .setTitle("Removendo Aluno")
-      .setMessage("Tem certeza que quer remover o Aluno?")
-      .setPositiveButton("Sim", (dialog, which) -> {
-        AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        Student selectedStudent = adapter.getItem(menuInfo.position);
-        remove(selectedStudent);
-      })
-      .setNegativeButton("Não", null).show();
-  }
-
 
   private void setupList() {
     ListView studentsList = findViewById(R.id.activity_list_students_list_view);
-    setupAdapter(studentsList);
+    view.setupAdapter(studentsList);
     setupOnItemClickListener(studentsList);
     registerForContextMenu(studentsList);
   }
 
-  private void setupAdapter(ListView studentsList) {
-    adapter = new ListStudentAdapter(this);
-    studentsList.setAdapter(adapter);
-  }
+
 
   private void setupFabNewStudent() {
     FloatingActionButton newStudentButton = findViewById(R.id.activity_list_students_fab_new);
@@ -103,11 +88,6 @@ public class ListStudentsActivity extends AppCompatActivity {
     Intent goToFormStudentActivity = new Intent(ListStudentsActivity.this, FormStudentActivity.class);
     goToFormStudentActivity.putExtra(STUDENT_KEY, student);
     startActivity(goToFormStudentActivity);
-  }
-
-  private void remove(Student student) {
-    dao.remove(student);
-    adapter.remove(student);
   }
 
 }
