@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.github.allanfvc.agenda.R;
 import com.github.allanfvc.agenda.dao.StudentDAO;
 import com.github.allanfvc.agenda.model.Student;
+import com.github.allanfvc.agenda.ui.adapter.ListStudentAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import static com.github.allanfvc.agenda.ui.activity.Contants.STUDENT_KEY;
@@ -24,7 +25,7 @@ public class ListStudentsActivity extends AppCompatActivity {
 
   public static final String APPBAR_TITLE = "Lista de alunos";
   private final StudentDAO dao = new StudentDAO();
-  private ArrayAdapter<Student> adapter;
+  private ListStudentAdapter adapter;
 
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -32,13 +33,15 @@ public class ListStudentsActivity extends AppCompatActivity {
     setContentView(R.layout.activity_list_students);
     setTitle(APPBAR_TITLE);
     setupFabNewStudent();
+    setupList();
+    dao.save(new Student("Allan", "11 2222 3333", ""));
   }
 
   @Override
   protected void onResume() {
     super.onResume();
-    StudentDAO dao = new StudentDAO();
-    setupList(dao);
+    adapter.clear();
+    adapter.addAll(dao.listAll());
   }
 
   @Override
@@ -60,15 +63,15 @@ public class ListStudentsActivity extends AppCompatActivity {
   }
 
 
-  private void setupList(StudentDAO dao) {
+  private void setupList() {
     ListView studentsList = findViewById(R.id.activity_list_students_listview);
-    setupAdapter(dao, studentsList);
+    setupAdapter(studentsList);
     setupOnItemClickListener(studentsList);
     registerForContextMenu(studentsList);
   }
 
-  private void setupAdapter(StudentDAO dao, ListView studentsList) {
-    adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, dao.listAll());
+  private void setupAdapter(ListView studentsList) {
+    adapter = new ListStudentAdapter(this);
     studentsList.setAdapter(adapter);
   }
 
