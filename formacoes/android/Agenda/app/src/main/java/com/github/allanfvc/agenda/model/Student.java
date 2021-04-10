@@ -1,5 +1,7 @@
 package com.github.allanfvc.agenda.model;
 
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 
 public class Student implements Serializable {
@@ -18,6 +20,7 @@ public class Student implements Serializable {
     
   }
 
+  @NonNull
   @Override
   public String toString() {
     return name;
@@ -33,9 +36,8 @@ public class Student implements Serializable {
     return this;
   }
 
-  public Student setEmail(String email) {
+  public void setEmail(String email) {
     this.email = email;
-    return this;
   }
 
   public int getId() {

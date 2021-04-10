@@ -4,5 +4,5 @@
   <item android:id="@+id/activity_form_student_menu_save"
     app:showAsAction="always"
     android:icon="@drawable/ic_action_save_student"
-    android:title="Salvar o aluno"/>
+    android:title="@string/activity_form_students_menu_save"/>
 </menu>

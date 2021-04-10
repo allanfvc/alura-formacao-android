@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto"
   android:layout_width="match_parent"
-  android:layout_height="match_parent"
-  >
+  android:layout_height="match_parent">
 
   <ListView
-    android:id="@+id/activity_list_students_listview"
+    android:id="@+id/activity_list_students_list_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -23,6 +21,8 @@
     android:layout_marginEnd="16dp"
     android:layout_marginBottom="16dp"
     android:clickable="true"
-    android:src="@drawable/ic_action_add_student" />
+    android:focusable="true"
+    android:src="@drawable/ic_action_add_student"
+    android:contentDescription="@string/activity_list_students_fab_description" />
 
 </RelativeLayout>

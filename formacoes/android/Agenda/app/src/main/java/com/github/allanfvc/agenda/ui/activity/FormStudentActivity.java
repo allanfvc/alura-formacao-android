@@ -13,12 +13,10 @@ import com.github.allanfvc.agenda.R;
 import com.github.allanfvc.agenda.dao.StudentDAO;
 import com.github.allanfvc.agenda.model.Student;
 
-import static com.github.allanfvc.agenda.ui.activity.Contants.STUDENT_KEY;
+import static com.github.allanfvc.agenda.ui.activity.Constants.STUDENT_KEY;
 
 public class FormStudentActivity extends AppCompatActivity {
-
-  public static final String APPBAR_TITLE = "Novo aluno";
-  public static final String APPBAR_TITLE_EDIT = "Edita aluno";
+  
   private EditText fieldName;
   private EditText fieldPhone;
   private EditText fieldEmail;
@@ -28,7 +26,6 @@ public class FormStudentActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setTitle(APPBAR_TITLE);
     setContentView(R.layout.activity_form_student);
     
 
@@ -78,11 +75,11 @@ public class FormStudentActivity extends AppCompatActivity {
   private void loadStudent() {
     Intent data = getIntent();
     if (data.hasExtra(STUDENT_KEY)) {
-      setTitle(APPBAR_TITLE_EDIT);
+      setTitle(getResources().getText(R.string.activity_form_students_title_edit));
       student = (Student) data.getSerializableExtra(STUDENT_KEY);
       fillForm();
     } else {
-      setTitle(APPBAR_TITLE);
+      setTitle(getResources().getText(R.string.activity_form_students_title_new));
       student = new Student();
     }
   }

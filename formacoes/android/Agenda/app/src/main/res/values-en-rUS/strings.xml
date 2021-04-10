@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="activity_list_students_title">Students List</string>
+  <string name="activity_form_students_title_new">New Student</string>
+  <string name="activity_form_students_title_edit">Edit Student</string>
+  <string name="activity_list_students_fab_description">Add Student</string>
+  <string name="activity_form_students_hint_name">Name</string>
+  <string name="activity_form_students_hint_phone">Phone</string>
+  <string name="activity_form_students_hint_email">E-mail</string>
+  <string name="activity_list_students_menu_remove">Remove</string>
+  <string name="activity_form_students_menu_save">Save the student</string>
+</resources>

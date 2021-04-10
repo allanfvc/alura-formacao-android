@@ -1,13 +1,11 @@
 package com.github.allanfvc.agenda.ui.activity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -21,11 +19,10 @@ import com.github.allanfvc.agenda.model.Student;
 import com.github.allanfvc.agenda.ui.adapter.ListStudentAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import static com.github.allanfvc.agenda.ui.activity.Contants.STUDENT_KEY;
+import static com.github.allanfvc.agenda.ui.activity.Constants.STUDENT_KEY;
 
 public class ListStudentsActivity extends AppCompatActivity {
 
-  public static final String APPBAR_TITLE = "Lista de alunos";
   private final StudentDAO dao = new StudentDAO();
   private ListStudentAdapter adapter;
 
@@ -33,7 +30,7 @@ public class ListStudentsActivity extends AppCompatActivity {
   protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_list_students);
-    setTitle(APPBAR_TITLE);
+    setTitle(getResources().getText(R.string.activity_list_students_title));
     setupFabNewStudent();
     setupList();
   }
@@ -65,20 +62,17 @@ public class ListStudentsActivity extends AppCompatActivity {
     new AlertDialog.Builder(this)
       .setTitle("Removendo Aluno")
       .setMessage("Tem certeza que quer remover o Aluno?")
-      .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
-        @Override
-        public void onClick(DialogInterface dialog, int which) {
-          AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-          Student selectedStudent = adapter.getItem(menuInfo.position);
-          remove(selectedStudent);
-        }
+      .setPositiveButton("Sim", (dialog, which) -> {
+        AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        Student selectedStudent = adapter.getItem(menuInfo.position);
+        remove(selectedStudent);
       })
       .setNegativeButton("Não", null).show();
   }
 
 
   private void setupList() {
-    ListView studentsList = findViewById(R.id.activity_list_students_listview);
+    ListView studentsList = findViewById(R.id.activity_list_students_list_view);
     setupAdapter(studentsList);
     setupOnItemClickListener(studentsList);
     registerForContextMenu(studentsList);
@@ -95,8 +89,8 @@ public class ListStudentsActivity extends AppCompatActivity {
   }
 
   private void setupOnItemClickListener(ListView studentList) {
-      studentList.setOnItemClickListener((adapterView, view, posicao, id) -> {
-        Student selectedStudent = (Student) adapterView.getItemAtPosition(posicao);
+      studentList.setOnItemClickListener((adapterView, view, position, id) -> {
+        Student selectedStudent = (Student) adapterView.getItemAtPosition(position);
         showFormStudentActivityToEdit(selectedStudent);
       });
   }

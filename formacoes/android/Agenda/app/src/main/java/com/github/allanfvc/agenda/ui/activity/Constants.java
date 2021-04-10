@@ -1,5 +1,5 @@
 package com.github.allanfvc.agenda.ui.activity;
 
-public interface Contants {
+public interface Constants {
   String STUDENT_KEY = "STUDENT";
 }
