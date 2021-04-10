@@ -1,5 +1,6 @@
 package com.github.allanfvc.agenda.ui.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -11,6 +12,7 @@ import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.github.allanfvc.agenda.R;
@@ -34,14 +36,12 @@ public class ListStudentsActivity extends AppCompatActivity {
     setTitle(APPBAR_TITLE);
     setupFabNewStudent();
     setupList();
-    dao.save(new Student("Allan", "11 2222 3333", ""));
   }
 
   @Override
   protected void onResume() {
     super.onResume();
-    adapter.clear();
-    adapter.addAll(dao.listAll());
+    adapter.update(dao.listAll());
   }
 
   @Override
@@ -54,12 +54,26 @@ public class ListStudentsActivity extends AppCompatActivity {
   public boolean onContextItemSelected(@NonNull MenuItem item) {
     int itemId = item.getItemId();
     if (itemId == R.id.activity_list_students_remove) {
-      AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-      Student selectedStudent = adapter.getItem(menuInfo.position);
-      remove(selectedStudent);
+      confirmDelete(item);
     }
 
     return super.onContextItemSelected(item);
+  }
+
+  private void confirmDelete(@NonNull final MenuItem item) {
+    
+    new AlertDialog.Builder(this)
+      .setTitle("Removendo Aluno")
+      .setMessage("Tem certeza que quer remover o Aluno?")
+      .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+          AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+          Student selectedStudent = adapter.getItem(menuInfo.position);
+          remove(selectedStudent);
+        }
+      })
+      .setNegativeButton("Não", null).show();
   }
 
 

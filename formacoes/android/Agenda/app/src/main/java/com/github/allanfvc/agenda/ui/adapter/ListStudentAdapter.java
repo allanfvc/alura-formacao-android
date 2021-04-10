@@ -49,13 +49,12 @@ public class ListStudentAdapter extends BaseAdapter {
 
   public void remove(Student student) {
     this.students.remove(student);
+    notifyDataSetChanged();
   }
-
-  public void addAll(List<Student> students) {
+  
+  public void update(List<Student> students) {
+    this.students.clear();
     this.students.addAll(students);
   }
-
-  public void clear() {
-    this.students.clear();
-  }
+  
 }
